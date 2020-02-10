@@ -1,0 +1,71 @@
+---
+title: "lle-assignment3"
+author: "Laura Le"
+date: "2/3/2020"
+output:
+  md_document:
+    variant: gfm
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(data.table)
+library(ggplot2)
+library(dplyr)
+
+```
+
+## Reading in the Data
+
+```{r data}
+data <- fread("C:/Users/le/Desktop/GDAT515/lle-assignment3/lle-assignment3/challengerdata.csv")
+
+data <- data %>% mutate(
+  Distress = as.character(Distress)
+)
+
+summary(data)
+
+```
+
+## EDA
+
+```{r EDA}
+
+
+plot(data)
+
+
+ggplot(data, aes(Temp, Distress))+
+  geom_point()
+
+ggplot(data, aes(psi, Distress))+
+  geom_point()
+
+ggplot(data, aes(Order, Distress))+
+  geom_point()
+
+
+ggplot(data, aes(Temp, Distress))+
+  geom_jitter(aes(color = psi))
+
+
+  
+  
+
+```
+
+```{r}
+ggplot(data, aes(Temp, psi))+
+  geom_jitter(aes(color = Distress))+
+  geom_vline(xintercept = 23, color = "red")+
+  scale_x_continuous(breaks = seq(0, 100, 5))+
+  geom_segment(aes(x = 30, y = 175, xend = 24., yend = 160),
+               arrow = arrow(length = unit(0.5, "cm")))+
+  annotate("label", x = 35, y = 185, label = "23 degrees at Launch")+
+  geom_text(x = 40, y = 100, label = "Tests were not conducted") +
+  geom_text(x = 40, y = 92, label = "at lower temperatures")+
+  ggtitle("Evidence of Incomplete Testing")
+```
+
